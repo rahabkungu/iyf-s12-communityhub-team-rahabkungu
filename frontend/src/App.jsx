@@ -1,48 +1,27 @@
-
-import React, {useState} from 'react';
-import Header from './components/Layout/Header';
-import Sidebar from './components/Layout/Sidebar';
-import Footer from './components/Layout/Footer';
-import PostList from './components/Post/PostList';
-import CreatePost from './components/Post/CreatePost';
-import PostCard from './components/Post/PostCard';
+import { Routes, Route, Link } from 'react-router-dom';
+import Home from './pages/Home';
+import Posts from './pages/Posts';
+import About from './pages/About';
 import './App.css';
 
-function App() {
-  const [posts, setPosts] = useState([
-    { id: 1, title: 'Welcome to communityHub!', content: 'Glad to have you all here building together.', author: 'Admin', date: '2026-11-18', likes: 5 }
-  ]);
-
-  const handleAddPost = (newPost) => {
-    setPosts([newPost, ...posts]);
-  };
-
-  const handleLikePost = (id) => {
-    setPosts(posts.map(post => 
-      post.id === id ? { ...post, likes: post.likes + 1 } : post
-    ));
-  };
-
+export default function App() {
   return (
     <div className="app-container">
-      <Header />
+      {/* Navigation Header */}
+      <nav style={{ display: 'flex', gap: '20px', padding: '1rem', background: '#1a1a1a', color: '#fff' }}>
+        <Link to="/" style={{ color: '#fff', textDecoration: 'none' }}>Home</Link>
+        <Link to="/posts" style={{ color: '#fff', textDecoration: 'none' }}>Posts</Link>
+        <Link to="/about" style={{ color: '#fff', textDecoration: 'none' }}>About</Link>
+      </nav>
 
-      <div className="main-content" style={{ display: 'flex' }}>
-        <Sidebar />
-
-        <main style={{ padding: '20px' }}>
-          <h2>Community Feed</h2>
-          <CreatePost onAddPost={handleAddPost} />
-          <hr style={{ margin: '2rem 0', borderColor: '#333'}}/>
-          <PostList posts={posts} onLike={handleLikePost} />
-          <PostCard post={{ id: 2, title: 'Sample Post', content: 'This is a sample post content.', author: 'User1', date: '2026-11-19', likes: 3 }} onLike={handleLikePost} />
-          <p>Your collaborative space is coming together!</p>
-        </main>
-      </div>
-
-      <Footer />
+      {/* Page Routes */}
+      <main style={{ padding: '20px' }}>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/posts" element={<Posts />} />
+          <Route path="/about" element={<About />} />
+        </Routes>
+      </main>
     </div>
   );
 }
-
-export default App;
